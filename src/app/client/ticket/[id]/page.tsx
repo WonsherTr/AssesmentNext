@@ -1,17 +1,14 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { ITicket, IComment, IUserResponse } from '@/types';
 import { getTicketById, getCommentsByTicket, createComment } from '@/hooks/useApi';
 import { Button, Card, CardHeader, CardBody, Textarea, StatusBadge, PriorityBadge } from '@/components';
 
-interface TicketDetailPageProps {
-  params: Promise<{ id: string }>;
-}
-
-export default function TicketDetailPage({ params }: TicketDetailPageProps) {
-  const { id } = use(params);
+export default function TicketDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
   const router = useRouter();
   const [ticket, setTicket] = useState<ITicket | null>(null);
   const [comments, setComments] = useState<IComment[]>([]);
@@ -84,49 +81,49 @@ export default function TicketDetailPage({ params }: TicketDetailPageProps) {
       <Card className="mb-6">
         <CardHeader>
           <div className="flex justify-between items-start">
-            <h1 className="text-xl font-bold text-gray-900">{ticket.title}</h1>
+            <h1 className="text-xl font-bold text-gray-100">{ticket.title}</h1>
             <div className="flex gap-2">
               <StatusBadge status={ticket.status} />
               <PriorityBadge priority={ticket.priority} />
             </div>
           </div>
-          <div className="text-sm text-gray-500 mt-2">
+          <div className="text-sm text-gray-400 mt-2">
             Created by {creator?.name || 'Unknown'} on {new Date(ticket.createdAt).toLocaleString()}
           </div>
         </CardHeader>
         <CardBody>
-          <p className="text-gray-700 whitespace-pre-wrap">{ticket.description}</p>
+          <p className="text-gray-300 whitespace-pre-wrap">{ticket.description}</p>
         </CardBody>
       </Card>
 
       {/* Comments Section */}
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-semibold text-gray-900">Comments ({comments.length})</h2>
+          <h2 className="text-lg font-semibold text-gray-100">Comments ({comments.length})</h2>
         </CardHeader>
         <CardBody>
           {comments.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">No comments yet</p>
+            <p className="text-gray-400 text-center py-4">No comments yet</p>
           ) : (
             <div className="space-y-4 mb-6">
               {comments.map((comment) => {
                 const author = comment.author as IUserResponse;
                 return (
-                  <div key={comment._id} className="border-b border-gray-100 pb-4 last:border-0">
+                  <div key={comment._id} className="border-b border-dark-border pb-4 last:border-0">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium text-gray-900">{author?.name || 'Unknown'}</span>
+                        <span className="font-medium text-gray-100">{author?.name || 'Unknown'}</span>
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
-                          author?.role === 'agent' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
+                          author?.role === 'agent' ? 'bg-primary-500/20 text-primary-400' : 'bg-dark-border text-gray-300'
                         }`}>
                           {author?.role || 'user'}
                         </span>
                       </div>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-gray-500">
                         {new Date(comment.createdAt).toLocaleString()}
                       </span>
                     </div>
-                    <p className="text-gray-700">{comment.message}</p>
+                    <p className="text-gray-300">{comment.message}</p>
                   </div>
                 );
               })}
@@ -152,7 +149,7 @@ export default function TicketDetailPage({ params }: TicketDetailPageProps) {
           )}
 
           {ticket.status === 'closed' && (
-            <div className="mt-4 text-center text-gray-500 bg-gray-50 py-4 rounded-lg">
+            <div className="mt-4 text-center text-gray-400 bg-dark-bg border border-dark-border py-4 rounded-lg">
               This ticket is closed. No more comments can be added.
             </div>
           )}

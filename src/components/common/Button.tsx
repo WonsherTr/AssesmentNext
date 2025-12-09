@@ -14,12 +14,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500',
-  secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-900 focus:ring-gray-500',
-  success: 'bg-success-500 hover:bg-success-600 text-white focus:ring-success-500',
-  danger: 'bg-danger-500 hover:bg-danger-600 text-white focus:ring-danger-500',
-  warning: 'bg-warning-500 hover:bg-warning-600 text-white focus:ring-warning-500',
-  ghost: 'bg-transparent hover:bg-gray-100 text-gray-700 focus:ring-gray-500',
+  primary: 'bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-400 hover:to-primary-500 text-dark-bg font-semibold shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40',
+  secondary: 'bg-dark-card/80 hover:bg-dark-card text-gray-200 border border-dark-border/50 hover:border-primary-500/30',
+  success: 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white shadow-lg shadow-green-500/25',
+  danger: 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white shadow-lg shadow-red-500/25',
+  warning: 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-dark-bg shadow-lg shadow-yellow-500/25',
+  ghost: 'bg-transparent hover:bg-dark-card/50 text-gray-300 hover:text-primary-400',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

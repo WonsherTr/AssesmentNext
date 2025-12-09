@@ -16,21 +16,34 @@ interface BadgeProps {
 }
 
 const statusColors: Record<TicketStatus, string> = {
-  open: 'bg-blue-100 text-blue-800 border-blue-200',
-  in_progress: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  resolved: 'bg-green-100 text-green-800 border-green-200',
-  closed: 'bg-gray-100 text-gray-800 border-gray-200',
+  open: 'bg-primary-500/15 text-primary-300 border-primary-500/40 shadow-primary-500/10',
+  in_progress: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/40 shadow-yellow-500/10',
+  resolved: 'bg-green-500/15 text-green-300 border-green-500/40 shadow-green-500/10',
+  closed: 'bg-gray-500/15 text-gray-400 border-gray-500/40 shadow-gray-500/10',
+};
+
+const statusIcons: Record<TicketStatus, string> = {
+  open: '●',
+  in_progress: '●',
+  resolved: '✓',
+  closed: '○',
 };
 
 const priorityColors: Record<TicketPriority, string> = {
-  low: 'bg-gray-100 text-gray-700 border-gray-200',
-  medium: 'bg-orange-100 text-orange-800 border-orange-200',
-  high: 'bg-red-100 text-red-800 border-red-200',
+  low: 'bg-slate-500/15 text-slate-300 border-slate-500/40',
+  medium: 'bg-orange-500/15 text-orange-300 border-orange-500/40',
+  high: 'bg-red-500/15 text-red-300 border-red-500/40 animate-pulse',
+};
+
+const priorityIcons: Record<TicketPriority, string> = {
+  low: '↓',
+  medium: '→',
+  high: '↑',
 };
 
 const sizeStyles: Record<BadgeSize, string> = {
-  sm: 'px-2 py-0.5 text-xs',
-  md: 'px-2.5 py-1 text-sm',
+  sm: 'px-2.5 py-1 text-xs',
+  md: 'px-3 py-1.5 text-sm',
 };
 
 export function getStatusLabel(status: TicketStatus): string {
@@ -60,7 +73,7 @@ export default function Badge({
   size = 'sm',
   className = '',
 }: BadgeProps) {
-  let colorClasses = 'bg-gray-100 text-gray-800 border-gray-200';
+  let colorClasses = 'bg-gray-500/15 text-gray-300 border-gray-500/40';
 
   if (variant === 'status' && status) {
     colorClasses = statusColors[status];
@@ -71,7 +84,8 @@ export default function Badge({
   return (
     <span
       className={`
-        inline-flex items-center font-medium rounded-full border
+        inline-flex items-center gap-1.5 font-medium rounded-full border backdrop-blur-sm
+        shadow-sm transition-all duration-200
         ${colorClasses}
         ${sizeStyles[size]}
         ${className}
@@ -86,6 +100,9 @@ export default function Badge({
 export function StatusBadge({ status, size = 'sm' }: { status: TicketStatus; size?: BadgeSize }) {
   return (
     <Badge variant="status" status={status} size={size}>
+      <span className={`${status === 'in_progress' ? 'animate-pulse' : ''}`}>
+        <span className="inline-block w-1.5 h-1.5 rounded-full bg-current"></span>
+      </span>
       {getStatusLabel(status)}
     </Badge>
   );
@@ -94,6 +111,7 @@ export function StatusBadge({ status, size = 'sm' }: { status: TicketStatus; siz
 export function PriorityBadge({ priority, size = 'sm' }: { priority: TicketPriority; size?: BadgeSize }) {
   return (
     <Badge variant="priority" priority={priority} size={size}>
+      <span className="text-[10px]">{priorityIcons[priority]}</span>
       {getPriorityLabel(priority)}
     </Badge>
   );

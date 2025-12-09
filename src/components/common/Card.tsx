@@ -7,19 +7,26 @@ interface CardProps {
   className?: string;
   onClick?: () => void;
   hoverable?: boolean;
+  glow?: boolean;
 }
 
 export default function Card({ 
   children, 
   className = '', 
   onClick,
-  hoverable = false 
+  hoverable = false,
+  glow = false
 }: CardProps) {
   return (
     <div
       className={`
-        bg-white rounded-lg border border-gray-200 shadow-sm
-        ${hoverable ? 'hover:shadow-md hover:border-gray-300 transition-all cursor-pointer' : ''}
+        bg-dark-card
+        backdrop-blur-sm
+        rounded-xl border border-dark-border
+        shadow-lg shadow-black/30
+        ${hoverable ? 'hover:shadow-xl hover:shadow-primary-500/20 hover:border-primary-500/50 hover:-translate-y-0.5 cursor-pointer hover:bg-dark-card-elevated' : ''}
+        ${glow ? 'glow-cyan-sm' : ''}
+        transition-all duration-300
         ${className}
       `}
       onClick={onClick}
@@ -36,7 +43,7 @@ interface CardHeaderProps {
 
 export function CardHeader({ children, className = '' }: CardHeaderProps) {
   return (
-    <div className={`px-6 py-4 border-b border-gray-200 ${className}`}>
+    <div className={`px-6 py-5 border-b border-dark-border/50 ${className}`}>
       {children}
     </div>
   );
@@ -49,7 +56,7 @@ interface CardBodyProps {
 
 export function CardBody({ children, className = '' }: CardBodyProps) {
   return (
-    <div className={`px-6 py-4 ${className}`}>
+    <div className={`px-6 py-5 ${className}`}>
       {children}
     </div>
   );
@@ -62,7 +69,7 @@ interface CardFooterProps {
 
 export function CardFooter({ children, className = '' }: CardFooterProps) {
   return (
-    <div className={`px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-lg ${className}`}>
+    <div className={`px-6 py-4 border-t border-dark-border/50 bg-dark-card-elevated/30 rounded-b-xl ${className}`}>
       {children}
     </div>
   );

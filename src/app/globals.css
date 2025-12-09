@@ -2,41 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark theme (default) */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 249, 250, 251;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 224, 231, 235;
+  --background-start-rgb: 3, 7, 15;
+  --background-end-rgb: 5, 10, 20;
+  --card-bg: #1e3a5f;
+  --border-color: #2d5a87;
+  --input-bg: #152a42;
+}
+
+/* Light theme */
+html.light {
+  --foreground-rgb: 30, 41, 59;
+  --background-start-rgb: 241, 245, 249;
+  --background-end-rgb: 226, 232, 240;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --border-color: rgba(203, 213, 225, 0.8);
+  --input-bg: rgba(255, 255, 255, 0.9);
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      135deg,
+      rgb(var(--background-start-rgb)) 0%,
+      rgb(var(--background-end-rgb)) 50%,
+      rgb(var(--background-start-rgb)) 100%
+    );
   min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Custom scrollbar */
+/* Scrollbar - Dark */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #0d2137;
   border-radius: 4px;
 }
 
+html.light ::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: linear-gradient(180deg, #06b6d4, #0891b2);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: linear-gradient(180deg, #22d3ee, #06b6d4);
 }
 
 /* Form focus states */
@@ -44,8 +63,81 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.4), 0 0 20px rgba(6, 182, 212, 0.15);
 }
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1);
+}
+
+html.light .glow-cyan {
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.15), 0 0 60px rgba(6, 182, 212, 0.05);
+}
+
+.glow-cyan-sm {
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.2), 0 0 30px rgba(6, 182, 212, 0.05);
+}
+
+html.light .glow-cyan-sm {
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.1), 0 0 30px rgba(6, 182, 212, 0.03);
+}
+
+/* Glass effect */
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 50%, #0891b2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html.light .text-gradient {
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 50%, #155e75 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated border glow */
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(6, 182, 212, 0.2); }
+  50% { border-color: rgba(6, 182, 212, 0.5); }
+}
+
+.animate-border-glow {
+  animation: border-glow 3s ease-in-out infinite;
+}
+
+/* Smooth hover transitions */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light theme overrides */
+html.light .bg-dark-bg { background-color: #f8fafc; }
+html.light .bg-dark-card { background-color: #ffffff; }
+html.light .bg-dark-border { background-color: #e2e8f0; }
+html.light .border-dark-border { border-color: #cbd5e1; }
+html.light .border-dark-border\/30 { border-color: rgba(203, 213, 225, 0.3); }
+html.light .border-dark-border\/50 { border-color: rgba(203, 213, 225, 0.5); }
+html.light .text-gray-100 { color: #1e293b; }
+html.light .text-gray-200 { color: #334155; }
+html.light .text-gray-300 { color: #475569; }
+html.light .text-gray-400 { color: #64748b; }
+html.light .text-gray-500 { color: #94a3b8; }
+html.light .from-dark-card\/90 { --tw-gradient-from: rgba(255, 255, 255, 0.95); }
+html.light .to-dark-card\/70 { --tw-gradient-to: rgba(255, 255, 255, 0.85); }
+html.light .bg-dark-bg\/80 { background-color: rgba(248, 250, 252, 0.9); }
+html.light .bg-dark-bg\/50 { background-color: rgba(248, 250, 252, 0.5); }
+html.light .bg-dark-card\/50 { background-color: rgba(255, 255, 255, 0.5); }
 
 /* Toast animations */
 @keyframes slideIn {
@@ -76,4 +168,32 @@ select:focus {
 
 .toast-exit {
   animation: slideOut 0.3s ease-in;
+}
+
+/* Loading Overlay Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-fadeOut {
+  animation: fadeOut 0.2s ease-in forwards;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 2s linear infinite;
 }

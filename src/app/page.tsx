@@ -25,8 +25,24 @@ export default function Home() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Loading...</p>
+        <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 via-primary-500 to-teal-600 p-[3px] mb-6 shadow-xl shadow-primary-500/40 animate-pulse">
+          <div className="w-full h-full rounded-[13px] bg-gradient-to-br from-primary-400/30 to-dark-bg/80 backdrop-blur-sm flex items-center justify-center">
+            <svg className="w-10 h-10 drop-shadow-lg" fill="none" viewBox="0 0 24 24">
+              <defs>
+                <linearGradient id="loadingIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#22d3ee" />
+                  <stop offset="50%" stopColor="#06b6d4" />
+                  <stop offset="100%" stopColor="#0d9488" />
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="9" stroke="url(#loadingIconGrad)" strokeWidth="1.8" fill="none" />
+              <circle cx="12" cy="12" r="3.5" stroke="url(#loadingIconGrad)" strokeWidth="1.8" fill="none" />
+              <path stroke="url(#loadingIconGrad)" strokeWidth="1.8" strokeLinecap="round" d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.64 5.64l1.77 1.77M16.59 16.59l1.77 1.77M5.64 18.36l1.77-1.77M16.59 7.41l1.77-1.77" />
+            </svg>
+          </div>
+        </div>
+        <div className="animate-spin rounded-full h-10 w-10 border-2 border-dark-border border-t-primary-500 mx-auto"></div>
+        <p className="mt-4 text-gray-400">Loading...</p>
       </div>
     </div>
   );
