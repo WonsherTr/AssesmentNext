@@ -5,146 +5,146 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-8.0-green)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC)
 
-## 📋 Descripción
+## Description
 
-HelpDeskPro es un sistema completo de gestión de tickets de soporte construido con Next.js 14, TypeScript y MongoDB. Permite la gestión eficiente de tickets con control de acceso basado en roles para clientes y agentes.
+HelpDeskPro is a complete support ticket management system built with Next.js 14, TypeScript and MongoDB. It enables efficient ticket management with role-based access control for clients and agents.
 
-### Características Principales
+### Main Features
 
-- ✅ **Autenticación basada en roles** (Cliente/Agente)
-- ✅ **Gestión de tickets** con seguimiento de estado y prioridad
-- ✅ **Sistema de comentarios** para discusiones en tickets
-- ✅ **Notificaciones por email** para eventos de tickets
-- ✅ **Dashboard de agentes** con filtros y estadísticas
-- ✅ **Portal de clientes** para envío y seguimiento de tickets
-- ✅ **Tema oscuro/claro** con toggle de cambio
-- ✅ **Componentes UI reutilizables** con efectos glassmorphism
+- Role-based authentication (Client/Agent)
+- Ticket management with status and priority tracking
+- Comment system for ticket discussions
+- Email notifications for ticket events
+- Agent dashboard with filters and statistics
+- Client portal for ticket submission and tracking
+- Dark/light theme toggle
+- Reusable UI components with glassmorphism effects
 
 ---
 
-## 🏗️ Arquitectura del Proyecto
+## Project Architecture
 
 ```
 HelpDeskPro/
 ├── src/
 │   ├── app/                          # Next.js App Router
-│   │   ├── api/                      # 🔵 BACKEND - API Routes
+│   │   ├── api/                      # BACKEND - API Routes
 │   │   │   ├── auth/
-│   │   │   │   ├── login/route.ts    # POST - Autenticación
-│   │   │   │   └── me/route.ts       # GET - Obtener usuario actual
+│   │   │   │   ├── login/route.ts    # POST - Authentication
+│   │   │   │   └── me/route.ts       # GET - Get current user
 │   │   │   ├── tickets/
-│   │   │   │   ├── route.ts          # GET/POST - Listar/Crear tickets
-│   │   │   │   └── [id]/route.ts     # GET/PATCH/DELETE - Ticket individual
+│   │   │   │   ├── route.ts          # GET/POST - List/Create tickets
+│   │   │   │   └── [id]/route.ts     # GET/PATCH/DELETE - Single ticket
 │   │   │   ├── comments/
-│   │   │   │   └── route.ts          # GET/POST - Comentarios
+│   │   │   │   └── route.ts          # GET/POST - Comments
 │   │   │   ├── users/
-│   │   │   │   └── agents/route.ts   # GET - Listar agentes
+│   │   │   │   └── agents/route.ts   # GET - List agents
 │   │   │   └── cron/
-│   │   │       └── reminder/route.ts # POST - Enviar recordatorios
+│   │   │       └── reminder/route.ts # POST - Send reminders
 │   │   │
-│   │   ├── agent/                    # 🟢 FRONTEND - Portal Agente
-│   │   │   ├── layout.tsx            # Layout con header
-│   │   │   ├── page.tsx              # Dashboard con tabla de tickets
-│   │   │   └── ticket/[id]/page.tsx  # Gestión de ticket individual
+│   │   ├── agent/                    # FRONTEND - Agent Portal
+│   │   │   ├── layout.tsx            # Layout with header
+│   │   │   ├── page.tsx              # Dashboard with ticket table
+│   │   │   └── ticket/[id]/page.tsx  # Individual ticket management
 │   │   │
-│   │   ├── client/                   # 🟢 FRONTEND - Portal Cliente
-│   │   │   ├── layout.tsx            # Layout con header
-│   │   │   ├── page.tsx              # Lista de mis tickets
-│   │   │   ├── new/page.tsx          # Crear nuevo ticket
-│   │   │   └── ticket/[id]/page.tsx  # Ver detalle de ticket
+│   │   ├── client/                   # FRONTEND - Client Portal
+│   │   │   ├── layout.tsx            # Layout with header
+│   │   │   ├── page.tsx              # My tickets list
+│   │   │   ├── new/page.tsx          # Create new ticket
+│   │   │   └── ticket/[id]/page.tsx  # Ticket detail view
 │   │   │
-│   │   ├── login/page.tsx            # 🟢 FRONTEND - Login
-│   │   ├── page.tsx                  # Redirect según rol
-│   │   ├── layout.tsx                # Root layout con providers
-│   │   └── globals.css               # Estilos globales y animaciones
+│   │   ├── login/page.tsx            # FRONTEND - Login
+│   │   ├── page.tsx                  # Redirect based on role
+│   │   ├── layout.tsx                # Root layout with providers
+│   │   └── globals.css               # Global styles and animations
 │   │
-│   ├── components/                   # 🎨 COMPONENTES UI
+│   ├── components/                   # UI COMPONENTS
 │   │   ├── common/
-│   │   │   ├── Badge.tsx             # Badges de status/priority
-│   │   │   ├── Button.tsx            # Botón con variantes
-│   │   │   ├── Card.tsx              # Card con glassmorphism
-│   │   │   ├── LoadingOverlay.tsx    # Overlay de carga
-│   │   │   └── ThemeToggle.tsx       # Toggle tema claro/oscuro
+│   │   │   ├── Badge.tsx             # Status/priority badges
+│   │   │   ├── Button.tsx            # Button with variants
+│   │   │   ├── Card.tsx              # Card with glassmorphism
+│   │   │   ├── LoadingOverlay.tsx    # Loading overlay
+│   │   │   └── ThemeToggle.tsx       # Dark/light theme toggle
 │   │   ├── forms/
 │   │   │   └── Input.tsx             # Input, Textarea, Select
-│   │   └── index.ts                  # Exportaciones centralizadas
+│   │   └── index.ts                  # Centralized exports
 │   │
-│   ├── context/                      # 🔄 CONTEXTOS REACT
-│   │   ├── AuthContext.tsx           # Autenticación global
-│   │   └── ThemeContext.tsx          # Tema claro/oscuro
+│   ├── context/                      # REACT CONTEXTS
+│   │   ├── AuthContext.tsx           # Global authentication
+│   │   └── ThemeContext.tsx          # Dark/light theme
 │   │
-│   ├── models/                       # 🗄️ MODELOS MONGOOSE
-│   │   ├── User.ts                   # Modelo de usuario
-│   │   ├── Ticket.ts                 # Modelo de ticket
-│   │   ├── Comment.ts                # Modelo de comentario
-│   │   └── index.ts                  # Exportaciones
+│   ├── models/                       # MONGOOSE MODELS
+│   │   ├── User.ts                   # User model
+│   │   ├── Ticket.ts                 # Ticket model
+│   │   ├── Comment.ts                # Comment model
+│   │   └── index.ts                  # Exports
 │   │
 │   ├── hooks/
-│   │   └── useApi.ts                 # Funciones de API (fetch)
+│   │   └── useApi.ts                 # API functions (fetch)
 │   │
 │   ├── types/
-│   │   └── index.ts                  # Interfaces TypeScript
+│   │   └── index.ts                  # TypeScript interfaces
 │   │
 │   ├── utils/
-│   │   ├── auth.ts                   # Funciones JWT
-│   │   └── email.ts                  # Configuración Nodemailer
+│   │   ├── auth.ts                   # JWT functions
+│   │   └── email.ts                  # Nodemailer configuration
 │   │
 │   └── config/
-│       └── db.ts                     # Conexión MongoDB
+│       └── db.ts                     # MongoDB connection
 │
-├── tailwind.config.ts                # Configuración Tailwind + colores
+├── tailwind.config.ts                # Tailwind configuration + colors
 ├── package.json
-└── .env.local                        # Variables de entorno
+└── .env.local                        # Environment variables
 ```
 
 ---
 
-## 🔵 BACKEND - API Endpoints
+## BACKEND - API Endpoints
 
-### Autenticación
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/api/auth/login` | Iniciar sesión |
-| GET | `/api/auth/me` | Obtener usuario autenticado |
+### Authentication
+| Method | Route | Description |
+|--------|-------|-------------|
+| POST | `/api/auth/login` | Login |
+| GET | `/api/auth/me` | Get authenticated user |
 
 ### Tickets
-| Método | Ruta | Descripción | Roles |
-|--------|------|-------------|-------|
-| GET | `/api/tickets` | Listar tickets | Client: propios, Agent: todos |
-| POST | `/api/tickets` | Crear ticket | Client |
-| GET | `/api/tickets/[id]` | Obtener ticket | Client: propios, Agent: todos |
-| PATCH | `/api/tickets/[id]` | Actualizar ticket | Agent: status/priority, Client: title/desc |
-| DELETE | `/api/tickets/[id]` | Eliminar ticket | Agent |
+| Method | Route | Description | Roles |
+|--------|-------|-------------|-------|
+| GET | `/api/tickets` | List tickets | Client: own, Agent: all |
+| POST | `/api/tickets` | Create ticket | Client |
+| GET | `/api/tickets/[id]` | Get ticket | Client: own, Agent: all |
+| PATCH | `/api/tickets/[id]` | Update ticket | Agent: status/priority, Client: title/desc |
+| DELETE | `/api/tickets/[id]` | Delete ticket | Agent |
 
-### Comentarios
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/comments?ticketId=X` | Obtener comentarios de un ticket |
-| POST | `/api/comments` | Agregar comentario |
+### Comments
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/api/comments?ticketId=X` | Get ticket comments |
+| POST | `/api/comments` | Add comment |
 
-### Usuarios
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/users/agents` | Listar agentes disponibles |
-
----
-
-## 🟢 FRONTEND - Páginas
-
-### Portal Cliente (`/client`)
-- **Dashboard**: Lista de tickets del usuario con opciones de filtrado
-- **Nuevo Ticket**: Formulario para crear tickets
-- **Detalle Ticket**: Ver información y agregar comentarios
-
-### Portal Agente (`/agent`)
-- **Dashboard**: Tabla con todos los tickets, estadísticas y edición rápida
-- **Gestión Ticket**: Cambiar status, prioridad, asignar agente, comentar
+### Users
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/api/users/agents` | List available agents |
 
 ---
 
-## 🎨 COMPONENTES UI
+## FRONTEND - Pages
 
-### Badge (`StatusBadge`, `PriorityBadge`)
+### Client Portal (/client)
+- **Dashboard**: User ticket list with filtering options
+- **New Ticket**: Form to create tickets
+- **Ticket Detail**: View information and add comments
+
+### Agent Portal (/agent)
+- **Dashboard**: Table with all tickets, statistics and quick edit
+- **Ticket Management**: Change status, priority, assign agent, comment
+
+---
+
+## UI COMPONENTS
+
+### Badge (StatusBadge, PriorityBadge)
 ```tsx
 <StatusBadge status="open" />
 <PriorityBadge priority="high" />
@@ -155,25 +155,25 @@ HelpDeskPro/
 <Button variant="primary" size="lg" isLoading={false}>
   Click me
 </Button>
-// Variantes: primary, secondary, ghost, danger
+// Variants: primary, secondary, ghost, danger
 ```
 
 ### Card
 ```tsx
 <Card hoverable glow>
-  <CardHeader>Título</CardHeader>
-  <CardBody>Contenido</CardBody>
+  <CardHeader>Title</CardHeader>
+  <CardBody>Content</CardBody>
 </Card>
 ```
 
 ### ThemeToggle
 ```tsx
-<ThemeToggle /> // Toggle entre tema claro y oscuro
+<ThemeToggle /> // Toggle between light and dark theme
 ```
 
 ---
 
-## 🗄️ MODELOS DE DATOS
+## DATA MODELS
 
 ### User
 ```typescript
@@ -216,17 +216,17 @@ HelpDeskPro/
 
 ---
 
-## 🚀 Instalación y Ejecución
+## Installation and Setup
 
-### 1. Clonar e instalar dependencias
+### 1. Clone and install dependencies
 ```bash
 git clone <repo>
 cd AssesmentNext
 npm install
 ```
 
-### 2. Configurar variables de entorno
-Crear archivo `.env.local`:
+### 2. Configure environment variables
+Create .env.local file:
 ```env
 MONGODB_URI=mongodb://localhost:27017/helpdesk
 JWT_SECRET=your-secret-key
@@ -237,37 +237,67 @@ EMAIL_PASSWORD=your-app-password
 EMAIL_FROM=noreply@helpdesk.com
 ```
 
-### 3. Poblar base de datos (opcional)
+### 3. Seed database (optional)
 ```bash
 npx ts-node src/scripts/seed.ts
 ```
 
-### 4. Ejecutar en desarrollo
+### 4. Run in development
 ```bash
 npm run dev
 ```
 
-### 5. Acceder a la aplicación
+### 5. Access the application
 - URL: http://localhost:3000
-- **Cliente**: client@helpdesk.com / client123
-- **Agente**: agent@helpdesk.com / agent123
+- **Client**: client@helpdesk.com / client123
+- **Agent**: agent@helpdesk.com / agent123
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-| Tecnología | Uso |
+| Technology | Use |
 |------------|-----|
-| **Next.js 14** | Framework full-stack con App Router |
-| **TypeScript** | Tipado estático |
-| **MongoDB + Mongoose** | Base de datos y ODM |
-| **Tailwind CSS** | Estilos con tema oscuro personalizado |
-| **JWT + bcryptjs** | Autenticación segura |
-| **Nodemailer** | Notificaciones por email |
-| **React Context** | Estado global (Auth, Theme) |
+| **Next.js 14** | Full-stack framework with App Router |
+| **TypeScript** | Static typing |
+| **MongoDB + Mongoose** | Database and ODM |
+| **Tailwind CSS** | Styles with custom dark theme |
+| **JWT + bcryptjs** | Secure authentication |
+| **Nodemailer** | Email notifications |
+| **React Context** | Global state (Auth, Theme) |
 
 ---
 
-## 📝 Licencia
+## Screenshots
+
+### Login
+![Login](./screenshots/login.png)
+
+### Client Portal - Ticket List
+![Client Dashboard](./screenshots/client-dashboard.png)
+
+### Client Portal - Create Ticket
+![Create Ticket](./screenshots/create-ticket.png)
+
+### Agent Portal - Dashboard
+![Agent Dashboard](./screenshots/agent-dashboard.png)
+
+### Ticket Detail with Comments
+![Ticket Detail](./screenshots/ticket-detail.png)
+
+---
+
+## Coder Information
+
+| Field | Value |
+|-------|-------|
+| **Name** | Carlos Barraza Polo |
+| **Clan** | Macondo |
+| **Email** | barrazapolo6@gmail.com |
+| **ID** | 1002153744 |
+
+---
+
+## License
 
 MIT License
