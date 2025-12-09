@@ -5,281 +5,269 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-8.0-green)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC)
 
-## 📋 Description
+## 📋 Descripción
 
-HelpDeskPro is a comprehensive ticket management system built with Next.js 14, TypeScript, and MongoDB. It enables efficient management of support tickets with role-based access control for clients and agents.
+HelpDeskPro es un sistema completo de gestión de tickets de soporte construido con Next.js 14, TypeScript y MongoDB. Permite la gestión eficiente de tickets con control de acceso basado en roles para clientes y agentes.
 
-### Key Features
+### Características Principales
 
-- ✅ **Role-based Authentication** (Client/Agent)
-- ✅ **Ticket Management** with status and priority tracking
-- ✅ **Comment System** for ticket discussions
-- ✅ **Email Notifications** for ticket events
-- ✅ **Agent Dashboard** with filters and statistics
-- ✅ **Client Portal** for ticket submission and tracking
-- ✅ **Cron Job** for reminder emails on stale tickets
-- ✅ **Reusable UI Components** (Button, Badge, Card)
+- ✅ **Autenticación basada en roles** (Cliente/Agente)
+- ✅ **Gestión de tickets** con seguimiento de estado y prioridad
+- ✅ **Sistema de comentarios** para discusiones en tickets
+- ✅ **Notificaciones por email** para eventos de tickets
+- ✅ **Dashboard de agentes** con filtros y estadísticas
+- ✅ **Portal de clientes** para envío y seguimiento de tickets
+- ✅ **Tema oscuro/claro** con toggle de cambio
+- ✅ **Componentes UI reutilizables** con efectos glassmorphism
 
-## 🚀 Tech Stack
+---
 
-| Technology | Purpose |
-|------------|---------|
-| Next.js 14 | Full-stack React framework with App Router |
-| TypeScript | Type-safe development |
-| MongoDB + Mongoose | Database and ODM |
-| Tailwind CSS | Styling |
-| JWT + bcryptjs | Authentication |
-| Nodemailer | Email notifications |
-| Axios | HTTP client |
-
-## 📁 Project Structure
+## 🏗️ Arquitectura del Proyecto
 
 ```
-/src
-  /app                    # Next.js App Router pages
-    /api                  # API routes
-      /auth              # Authentication endpoints (login, me)
-      /tickets           # Ticket CRUD operations
-      /comments          # Comment operations
-      /users             # User operations (list agents)
-      /cron              # Cron job endpoints (reminders)
-    /client              # Client dashboard & pages
-    /agent               # Agent dashboard & pages
-    /login               # Login page
-  /components            # Reusable UI components
-    /ui                  # Button, Badge, Card, Input, etc.
-  /context               # React Context providers (AuthContext)
-  /lib                   # Utilities, DB connection, email service
-  /models                # Mongoose models (User, Ticket, Comment)
-  /services              # Axios service functions
-  /types                 # TypeScript interfaces
-  /scripts               # Database seed scripts
+HelpDeskPro/
+├── src/
+│   ├── app/                          # Next.js App Router
+│   │   ├── api/                      # 🔵 BACKEND - API Routes
+│   │   │   ├── auth/
+│   │   │   │   ├── login/route.ts    # POST - Autenticación
+│   │   │   │   └── me/route.ts       # GET - Obtener usuario actual
+│   │   │   ├── tickets/
+│   │   │   │   ├── route.ts          # GET/POST - Listar/Crear tickets
+│   │   │   │   └── [id]/route.ts     # GET/PATCH/DELETE - Ticket individual
+│   │   │   ├── comments/
+│   │   │   │   └── route.ts          # GET/POST - Comentarios
+│   │   │   ├── users/
+│   │   │   │   └── agents/route.ts   # GET - Listar agentes
+│   │   │   └── cron/
+│   │   │       └── reminder/route.ts # POST - Enviar recordatorios
+│   │   │
+│   │   ├── agent/                    # 🟢 FRONTEND - Portal Agente
+│   │   │   ├── layout.tsx            # Layout con header
+│   │   │   ├── page.tsx              # Dashboard con tabla de tickets
+│   │   │   └── ticket/[id]/page.tsx  # Gestión de ticket individual
+│   │   │
+│   │   ├── client/                   # 🟢 FRONTEND - Portal Cliente
+│   │   │   ├── layout.tsx            # Layout con header
+│   │   │   ├── page.tsx              # Lista de mis tickets
+│   │   │   ├── new/page.tsx          # Crear nuevo ticket
+│   │   │   └── ticket/[id]/page.tsx  # Ver detalle de ticket
+│   │   │
+│   │   ├── login/page.tsx            # 🟢 FRONTEND - Login
+│   │   ├── page.tsx                  # Redirect según rol
+│   │   ├── layout.tsx                # Root layout con providers
+│   │   └── globals.css               # Estilos globales y animaciones
+│   │
+│   ├── components/                   # 🎨 COMPONENTES UI
+│   │   ├── common/
+│   │   │   ├── Badge.tsx             # Badges de status/priority
+│   │   │   ├── Button.tsx            # Botón con variantes
+│   │   │   ├── Card.tsx              # Card con glassmorphism
+│   │   │   ├── LoadingOverlay.tsx    # Overlay de carga
+│   │   │   └── ThemeToggle.tsx       # Toggle tema claro/oscuro
+│   │   ├── forms/
+│   │   │   └── Input.tsx             # Input, Textarea, Select
+│   │   └── index.ts                  # Exportaciones centralizadas
+│   │
+│   ├── context/                      # 🔄 CONTEXTOS REACT
+│   │   ├── AuthContext.tsx           # Autenticación global
+│   │   └── ThemeContext.tsx          # Tema claro/oscuro
+│   │
+│   ├── models/                       # 🗄️ MODELOS MONGOOSE
+│   │   ├── User.ts                   # Modelo de usuario
+│   │   ├── Ticket.ts                 # Modelo de ticket
+│   │   ├── Comment.ts                # Modelo de comentario
+│   │   └── index.ts                  # Exportaciones
+│   │
+│   ├── hooks/
+│   │   └── useApi.ts                 # Funciones de API (fetch)
+│   │
+│   ├── types/
+│   │   └── index.ts                  # Interfaces TypeScript
+│   │
+│   ├── utils/
+│   │   ├── auth.ts                   # Funciones JWT
+│   │   └── email.ts                  # Configuración Nodemailer
+│   │
+│   └── config/
+│       └── db.ts                     # Conexión MongoDB
+│
+├── tailwind.config.ts                # Configuración Tailwind + colores
+├── package.json
+└── .env.local                        # Variables de entorno
 ```
 
-## 🔧 Prerequisites
+---
 
-- **Node.js** 18+ 
-- **MongoDB** (local or cloud instance like MongoDB Atlas)
-- **SMTP Server** for email notifications (Gmail, SendGrid, etc.)
+## 🔵 BACKEND - API Endpoints
 
-## ⚙️ Installation
+### Autenticación
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | `/api/auth/login` | Iniciar sesión |
+| GET | `/api/auth/me` | Obtener usuario autenticado |
 
-### 1. Clone the repository
+### Tickets
+| Método | Ruta | Descripción | Roles |
+|--------|------|-------------|-------|
+| GET | `/api/tickets` | Listar tickets | Client: propios, Agent: todos |
+| POST | `/api/tickets` | Crear ticket | Client |
+| GET | `/api/tickets/[id]` | Obtener ticket | Client: propios, Agent: todos |
+| PATCH | `/api/tickets/[id]` | Actualizar ticket | Agent: status/priority, Client: title/desc |
+| DELETE | `/api/tickets/[id]` | Eliminar ticket | Agent |
 
+### Comentarios
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/api/comments?ticketId=X` | Obtener comentarios de un ticket |
+| POST | `/api/comments` | Agregar comentario |
+
+### Usuarios
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/api/users/agents` | Listar agentes disponibles |
+
+---
+
+## 🟢 FRONTEND - Páginas
+
+### Portal Cliente (`/client`)
+- **Dashboard**: Lista de tickets del usuario con opciones de filtrado
+- **Nuevo Ticket**: Formulario para crear tickets
+- **Detalle Ticket**: Ver información y agregar comentarios
+
+### Portal Agente (`/agent`)
+- **Dashboard**: Tabla con todos los tickets, estadísticas y edición rápida
+- **Gestión Ticket**: Cambiar status, prioridad, asignar agente, comentar
+
+---
+
+## 🎨 COMPONENTES UI
+
+### Badge (`StatusBadge`, `PriorityBadge`)
+```tsx
+<StatusBadge status="open" />
+<PriorityBadge priority="high" />
+```
+
+### Button
+```tsx
+<Button variant="primary" size="lg" isLoading={false}>
+  Click me
+</Button>
+// Variantes: primary, secondary, ghost, danger
+```
+
+### Card
+```tsx
+<Card hoverable glow>
+  <CardHeader>Título</CardHeader>
+  <CardBody>Contenido</CardBody>
+</Card>
+```
+
+### ThemeToggle
+```tsx
+<ThemeToggle /> // Toggle entre tema claro y oscuro
+```
+
+---
+
+## 🗄️ MODELOS DE DATOS
+
+### User
+```typescript
+{
+  _id: ObjectId,
+  name: string,
+  email: string,
+  password: string (hashed),
+  role: 'client' | 'agent',
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Ticket
+```typescript
+{
+  _id: ObjectId,
+  title: string,
+  description: string,
+  status: 'open' | 'in_progress' | 'resolved' | 'closed',
+  priority: 'low' | 'medium' | 'high',
+  createdBy: ObjectId (ref: User),
+  assignedTo: ObjectId (ref: User) | null,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Comment
+```typescript
+{
+  _id: ObjectId,
+  ticketId: ObjectId (ref: Ticket),
+  author: ObjectId (ref: User),
+  message: string,
+  createdAt: Date
+}
+```
+
+---
+
+## 🚀 Instalación y Ejecución
+
+### 1. Clonar e instalar dependencias
 ```bash
-git clone https://github.com/your-username/helpdesk-pro.git
-cd helpdesk-pro
-```
-
-### 2. Install dependencies
-
-```bash
+git clone <repo>
+cd AssesmentNext
 npm install
 ```
 
-### 3. Configure environment variables
-
-Copy the example environment file:
-
-```bash
-cp .env.example .env.local
-```
-
-Edit `.env.local` with your configuration:
-
+### 2. Configurar variables de entorno
+Crear archivo `.env.local`:
 ```env
-# MongoDB Connection
 MONGODB_URI=mongodb://localhost:27017/helpdesk
-
-# JWT Secret (use a strong random string in production)
-JWT_SECRET=your-super-secret-jwt-key-change-in-production
-
-# SMTP Configuration for Email Notifications
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-
-# Application URL
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-
-# (Optional) Cron Secret for securing cron endpoints
-CRON_SECRET=your-cron-secret
+JWT_SECRET=your-secret-key
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASSWORD=your-app-password
+EMAIL_FROM=noreply@helpdesk.com
 ```
 
-### 4. Seed the database
-
-Run the seed script to create demo users and sample data:
-
+### 3. Poblar base de datos (opcional)
 ```bash
-npm run seed
+npx ts-node src/scripts/seed.ts
 ```
 
-This creates:
-- **Client accounts:** `client@helpdesk.com` / `client123`
-- **Agent accounts:** `agent@helpdesk.com` / `agent123`
-- Sample tickets and comments
-
-### 5. Start the development server
-
+### 4. Ejecutar en desarrollo
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 🔐 Demo Accounts
-
-| Role | Email | Password |
-|------|-------|----------|
-| Client | client@helpdesk.com | client123 |
-| Agent | agent@helpdesk.com | agent123 |
-
-## 📸 Screenshots
-
-### Login Page
-The login page allows users to authenticate with email and password. Based on their role, they are redirected to the appropriate dashboard.
-
-### Client Dashboard
-Clients can view their tickets, create new tickets, and add comments to existing tickets.
-
-### Agent Dashboard
-Agents have access to all tickets with filtering capabilities by status and priority. They can manage tickets, update status/priority, assign agents, and respond to clients.
-
-### Ticket Detail View
-Both clients and agents can view ticket details and participate in the comment thread.
-
-## 🔄 API Endpoints
-
-### Authentication
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/login` | User login |
-| GET | `/api/auth/me` | Get current user |
-
-### Tickets
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/tickets` | List tickets (with filters) |
-| POST | `/api/tickets` | Create ticket |
-| GET | `/api/tickets/[id]` | Get ticket by ID |
-| PATCH | `/api/tickets/[id]` | Update ticket |
-| DELETE | `/api/tickets/[id]` | Delete ticket (agents only) |
-
-### Comments
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/comments?ticketId=xxx` | Get comments for ticket |
-| POST | `/api/comments` | Add comment to ticket |
-
-### Users
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/users/agents` | List all agents (agents only) |
-
-### Cron Jobs
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/cron/reminder` | Send reminder emails for stale tickets |
-
-## 📧 Email Notifications
-
-The system sends automated emails for:
-- ✉️ **Ticket Created** - Client receives confirmation
-- ✉️ **New Response** - Client notified when agent responds
-- ✉️ **Ticket Closed** - Client notified when ticket is closed
-- ✉️ **Reminder** - Agents notified of stale tickets (via cron)
-
-## ⏰ Cron Job Setup
-
-To set up automatic reminders for stale tickets:
-
-### Using Vercel Cron (Recommended for Vercel deployments)
-
-Add to `vercel.json`:
-```json
-{
-  "crons": [
-    {
-      "path": "/api/cron/reminder",
-      "schedule": "0 9 * * *"
-    }
-  ]
-}
-```
-
-### Using external cron service
-
-Call the endpoint with authentication:
-```bash
-curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
-  https://your-domain.com/api/cron/reminder
-```
-
-## 🧪 Development Commands
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run seed` | Seed database with demo data |
-
-## 📋 User Stories Implemented
-
-### For Clients
-- ✅ Register and authenticate
-- ✅ Create support tickets with title, description, and priority
-- ✅ View list of own tickets
-- ✅ View ticket details and comment history
-- ✅ Add comments to own tickets
-- ✅ Receive email notifications
-
-### For Agents
-- ✅ Authenticate with agent role
-- ✅ View all tickets with filters (status, priority)
-- ✅ Update ticket status (open, in_progress, resolved, closed)
-- ✅ Update ticket priority
-- ✅ Assign tickets to agents
-- ✅ Respond to tickets with comments
-- ✅ Close tickets
-- ✅ View dashboard with statistics
-- ✅ Receive reminder emails for stale tickets
-
-## 🛡️ Security Features
-
-- JWT-based authentication
-- Password hashing with bcrypt (12 rounds)
-- Protected API routes
-- Role-based access control
-- CORS protection
-- Input validation
-
-## 🎨 UI Components
-
-The project includes reusable, typed UI components:
-
-- **Button** - Multiple variants (primary, secondary, success, danger, warning, ghost) and sizes
-- **Badge** - For status and priority display
-- **Card** - Container with header, body, and footer sections
-- **Input/Textarea/Select** - Form components with validation states
-
-## 👤 Coder Information
-
-| Field | Value |
-|-------|-------|
-| **Name** | [Your Name] |
-| **Clan** | [Your Clan] |
-| **Email** | [your.email@example.com] |
-| **Document ID** | [Your ID Number] |
+### 5. Acceder a la aplicación
+- URL: http://localhost:3000
+- **Cliente**: client@helpdesk.com / client123
+- **Agente**: agent@helpdesk.com / agent123
 
 ---
 
-## 📄 License
+## 🛠️ Tech Stack
 
-This project is created for educational purposes as part of a coding assessment.
+| Tecnología | Uso |
+|------------|-----|
+| **Next.js 14** | Framework full-stack con App Router |
+| **TypeScript** | Tipado estático |
+| **MongoDB + Mongoose** | Base de datos y ODM |
+| **Tailwind CSS** | Estilos con tema oscuro personalizado |
+| **JWT + bcryptjs** | Autenticación segura |
+| **Nodemailer** | Notificaciones por email |
+| **React Context** | Estado global (Auth, Theme) |
 
 ---
 
-Made with ❤️ using Next.js, TypeScript, and MongoDB
+## 📝 Licencia
+
+MIT License
