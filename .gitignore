@@ -3,6 +3,9 @@ node_modules/
 .pnp
 .pnp.js
 
+# PDF files
+*.pdf
+
 # Testing
 coverage/
 
