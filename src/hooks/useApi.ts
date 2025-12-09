@@ -130,4 +130,23 @@ export async function getAgents(): Promise<IUserResponse[]> {
   return response.data.data;
 }
 
+// User Services
+export interface ICreateUserData {
+  name: string;
+  email: string;
+  password: string;
+  role?: 'client' | 'agent';
+}
+
+export async function createUser(data: ICreateUserData): Promise<IUserResponse> {
+  const response = await api.post<{ message: string; user: IUserResponse }>('/users', data);
+  return response.data.user;
+}
+
+export async function getUsers(role?: string): Promise<IUserResponse[]> {
+  const params = role ? `?role=${role}` : '';
+  const response = await api.get<IUserResponse[]>(`/users${params}`);
+  return response.data;
+}
+
 export default api;
