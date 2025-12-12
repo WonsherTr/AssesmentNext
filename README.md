@@ -9,6 +9,29 @@
 
 HelpDeskPro is a complete support ticket management system built with Next.js 14, TypeScript and MongoDB. It enables efficient ticket management with role-based access control for clients and agents.
 
+---
+
+## 📚 Documentación para Sustentación / Documentation for Presentation
+
+**¿Necesitas prepararte para la sustentación?** Tenemos documentación completa en español:
+
+### 🎯 Empieza aquí / Start here:
+👉 **[LEEME_SUSTENTACION.md](./LEEME_SUSTENTACION.md)** - Guía maestra con índice de toda la documentación
+
+### 📖 Documentos disponibles / Available documents:
+1. **[EXPLICACION_CODIGO.md](./EXPLICACION_CODIGO.md)** (31KB) - React desde cero con ejemplos del proyecto
+2. **[GUIA_SUSTENTACION.md](./GUIA_SUSTENTACION.md)** (38KB) - Diagramas de flujo y preparación
+3. **[EJEMPLOS_PRACTICOS.md](./EJEMPLOS_PRACTICOS.md)** (35KB) - Código real con explicaciones
+4. **[RESUMEN_SUSTENTACION.md](./RESUMEN_SUSTENTACION.md)** (16KB) - Resumen ejecutivo y FAQ
+
+Estos documentos explican:
+- ✅ Conceptos de React desde cero (componentes, hooks, context)
+- ✅ Arquitectura del proyecto y flujos de datos
+- ✅ Explicación línea por línea del código
+- ✅ Preguntas frecuentes con respuestas detalladas
+- ✅ Diagramas y flujos visuales
+- ✅ Plan de estudio y checklist de preparación
+
 ### Main Features
 
 - Role-based authentication (Client/Agent)
