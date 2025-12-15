@@ -1,3 +1,24 @@
+/**
+ * PÁGINA PRINCIPAL - Router Automático
+ * 
+ * Esta es la LANDING PAGE ("/"). Su único propósito es redirigir al usuario
+ * al dashboard correcto basado en su rol y estado de autenticación.
+ * 
+ * FLUJO:
+ * 1. Usuario accede a "/" (página inicial)
+ * 2. Verifica si está cargando los datos de autenticación
+ * 3. Una vez cargado:
+ *    - ¿Está logueado? 
+ *      - SÍ y es AGENTE → /agent
+ *      - SÍ y es CLIENTE → /client
+ *      - NO → /login
+ * 
+ * PREGUNTAS DE SUSTENTACIÓN:
+ * - ¿Por qué necesito esta página? Para centralizar la lógica de routing
+ * - ¿Cómo determinas el rol? Del token JWT decodificado en useAuth()
+ * - ¿Qué muestra mientras carga? Un spinner de carga
+ */
+
 'use client';
 
 import { useEffect } from 'react';

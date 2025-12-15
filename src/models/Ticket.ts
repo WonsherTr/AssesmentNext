@@ -1,3 +1,21 @@
+/**
+ * MODELO TICKET - Solicitudes de Soporte
+ * 
+ * CAMPOS IMPORTANTES:
+ * - createdBy: El CLIENTE que crea el ticket (obligatorio)
+ * - assignedTo: El AGENTE asignado para resolver (opcional, puede estar null)
+ * - status: open, in_progress, resolved, closed
+ * - priority: low, medium, high
+ * 
+ * ÍNDICES (para optimizar búsquedas):
+ * - Los agentes filtran por status, priority, createdBy
+ * - Sin índices, estas queries serían lentas en BD grande
+ * 
+ * REFERENCIAS:
+ * - .populate('createdBy') → Reemplaza ObjectId con datos reales del usuario
+ * - .populate('assignedTo') → Trae info completa del agente
+ */
+
 import mongoose, { Schema, Model, Document, Types } from 'mongoose';
 import { TicketStatus, TicketPriority } from '@/types';
 

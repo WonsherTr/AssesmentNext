@@ -1,3 +1,20 @@
+/**
+ * MODELO USER - Usuarios del Sistema
+ * 
+ * Representa a las personas en el sistema:
+ * - CLIENTS: Crean tickets de soporte
+ * - AGENTS: Resuelven tickets y pueden crear clientes
+ * 
+ * SEGURIDAD:
+ * - Contraseña: Encriptada con bcryptjs (nunca se retorna)
+ * - Email: Unique (no pueden haber dos usuarios con mismo email)
+ * - Role: Enum (solo 'client' o 'agent')
+ * 
+ * PREGUNTAS DE SUSTENTACIÓN:
+ * - ¿Por qué excluyes la contraseña de JSON? Por seguridad (línea ~45)
+ * - ¿Cómo evitas duplicados de email? Con unique: true + lowercase
+ */
+
 import mongoose, { Schema, Model, Document } from 'mongoose';
 import { IUser, UserRole } from '@/types';
 
@@ -37,6 +54,16 @@ const UserSchema = new Schema<IUserDocument>(
   }
 );
 
+/**
+ * SEGURIDAD CRÍTICA: Excluye la contraseña de TODAS las respuestas JSON
+ * 
+ * EJEMPLO:
+ * - BD: { _id: '123', name: 'Juan', email: '...', password: '$2a$12$...' }
+ * - JSON retornado: { _id: '123', name: 'Juan', email: '...' }  ← sin password
+ * 
+ * IMPORTANTE: Aunque queramos acceder a user.password en backend,
+ * siempre usamos User.findOne().select('+password') explícitamente
+ */
 // Prevent password from being returned in queries by default
 UserSchema.set('toJSON', {
   transform: function (_doc, ret) {

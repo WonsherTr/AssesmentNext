@@ -1,3 +1,24 @@
+/**
+ * HOOK useApi - Capa de Servicios HTTP
+ * 
+ * Este archivo centraliza TODAS las peticiones al backend.
+ * 
+ * VENTAJAS:
+ * 1. Los interceptores añaden JWT automáticamente a TODAS las peticiones
+ * 2. Errores se manejan de forma centralizada
+ * 3. Tipos TypeScript en todas las funciones
+ * 4. Si cambio la BD, solo cambio aquí (no 50 componentes)
+ * 
+ * CÓMO FUNCIONA:
+ * - Cada función hace una petición a una ruta /api/...
+ * - El interceptor de request añade: Authorization: Bearer <token>
+ * - El interceptor de response capta errores y los muestra
+ * 
+ * SEGURIDAD:
+ * - El token se envía automáticamente en CADA petición
+ * - Solo endpoints autenticados funcionan
+ */
+
 import axios from 'axios';
 import {
   ITicket,
@@ -18,7 +39,17 @@ const api = axios.create({
   },
 });
 
-// Add token to requests if available
+/**
+ * INTERCEPTOR DE REQUEST
+ * 
+ * Se ejecuta ANTES de cada petición.
+ * Busca el JWT en localStorage y lo añade al header Authorization.
+ * 
+ * RESULTADO:
+ * Petición Original: GET /api/tickets
+ * Petición Final:    GET /api/tickets
+ *                    Headers: { Authorization: 'Bearer eyJhbGc...' }
+ */
 api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem('token');
@@ -29,7 +60,16 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle response errors
+/**
+ * INTERCEPTOR DE RESPONSE
+ * 
+ * Se ejecuta DESPUÉS de cada respuesta.
+ * Si hay error, extrae el mensaje del servidor y lo devuelve como Error.
+ * 
+ * EJEMPLO:
+ * Si servidor responde: { error: 'Email already exists' }
+ * El promise rechaza con: Error('Email already exists')
+ */
 api.interceptors.response.use(
   (response) => response,
   (error) => {
