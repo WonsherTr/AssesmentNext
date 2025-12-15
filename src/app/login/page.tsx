@@ -1,3 +1,32 @@
+/**
+ * NEXT.JS - CLIENT COMPONENT (Página de Login)
+ * 
+ * 'use client' INDICA QUE ESTE COMPONENTE:
+ * ✅ Se ejecuta en el NAVEGADOR (cliente)
+ * ✅ Puede usar hooks (useState, useEffect, useContext)
+ * ✅ Puede tener event listeners (onclick, onchange)
+ * ❌ NO puede acceder a la BD directamente
+ * ❌ NO puede usar variables de entorno secretas
+ * 
+ * FLUJO:
+ * 1. Usuario abre /login
+ * 2. Next.js renderiza este componente en el navegador
+ * 3. Usuario ingresa email + password
+ * 4. handleSubmit() → llama login() del AuthContext
+ * 5. AuthContext hace POST a /api/auth/login
+ * 6. Si OK → guarda token + usuario → redirige a /
+ * 
+ * IMPORTS NEXT.JS:
+ * - useRouter: Redirigir programáticamente
+ *   (NO es window.location, es de Next.js)
+ * - useAuth: Hook personalizado del contexto
+ * 
+ * PREGUNTAS DE SUSTENTACIÓN:
+ * - ¿Por qué 'use client'? Porque necesito useState y useRouter
+ * - ¿Puedo hacer query a BD aquí? No, eso se hace en /api/auth/login
+ * - ¿Dónde se valida la contraseña? En el servidor (/api/auth/login)
+ */
+
 'use client';
 
 import React, { useState } from 'react';
@@ -6,14 +35,31 @@ import { useAuth } from '@/context/AuthContext';
 import { Button, Input, ThemeToggle, LoadingOverlay } from '@/components';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { login, isLoading } = useAuth();
+  const router = useRouter();  // Hook de Next.js para redirigir
+  const { login, isLoading } = useAuth();  // AuthContext global
   
+  // Estados locales (solo para esta página)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
+  /**
+   * MANEJADOR DE SUBMIT
+   * 
+   * PASOS:
+   * 1. Evita recarga de página (e.preventDefault())
+   * 2. Valida que email y password no estén vacíos
+   * 3. Llama login(email, password) del AuthContext
+   * 4. AuthContext hace POST a /api/auth/login
+   * 5. Si OK → router.push('/') redirige a home
+   * 6. Home → detecta que está autenticado → redirige a /client o /agent
+   * 
+   * IMPORTANTE:
+   * - La validación REAL ocurre en /api/auth/login
+   * - Aquí solo prevenimos enviar vacío
+   * - El servidor valida email único, contraseña correcta, etc
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -25,9 +71,10 @@ export default function LoginPage() {
 
     try {
       setIsLoggingIn(true);
-      await login(email, password);
+      await login(email, password);  // Hace POST a /api/auth/login
       setTimeout(() => {
-        router.push('/');
+        router.push('/');  // Redirige a home (que luego redirige a /client o /agent)
+      }, 300);
       }, 300);
     } catch (err) {
       setIsLoggingIn(false);

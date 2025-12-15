@@ -1,3 +1,40 @@
+/**
+ * TYPESCRIPT CONFIGURATION
+ * 
+ * Configuración del compilador TypeScript para Next.js
+ * 
+ * OPCIONES IMPORTANTES:
+ * 
+ * 1. "strict": true
+ *    - Máximo rigor en tipado
+ *    - Obliga a escribir tipos explícitos
+ *    - Previene muchos bugs
+ * 
+ * 2. "jsx": "preserve"
+ *    - Next.js se encarga de compilar JSX
+ *    - No lo compilamos nosotros
+ * 
+ * 3. "lib": ["dom", "dom.iterable", "esnext"]
+ *    - "dom": Tipos para APIs del navegador (document, window, etc)
+ *    - "esnext": Características modernas de JavaScript
+ * 
+ * 4. "paths": { "@/*": ["./src/*"] }
+ *    - ALIAS: Permite import desde @/... en lugar de ../../../
+ *    - Ejemplo: import { Button } from '@/components'
+ *    - Sin alias: import { Button } from '../../../../components'
+ * 
+ * 5. "moduleResolution": "bundler"
+ *    - Usa estrategia de bundler moderno (recomendado para Next.js 14+)
+ * 
+ * 6. "isolatedModules": true
+ *    - Cada archivo se puede compilar independientemente
+ *    - Importante para performance en desarrollo
+ * 
+ * PREGUNTAS DE SUSTENTACIÓN:
+ * - ¿Qué es strict mode? Tipado estricto que previene errores
+ * - ¿Para qué sirven los paths? Para imports más limpios
+ * - ¿Qué es jsx? Sintaxis que mezcla HTML con JavaScript
+ */
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -17,6 +54,23 @@
         "name": "next"
       }
     ],
+    /**
+     * ALIAS DE IMPORTS
+     * "@/*" → "src/*"
+     * 
+     * EJEMPLOS:
+     * import Button from '@/components/common/Button'
+     * import { useApi } from '@/hooks/useApi'
+     * import User from '@/models/User'
+     * 
+     * SIN ALIAS (antiguo):
+     * import Button from '../../../../components/common/Button'
+     * 
+     * VENTAJAS:
+     * - Imports limpios y legibles
+     * - Si mueves carpeta, no rompe imports
+     * - Más rápido de escribir
+     */
     "paths": {
       "@/*": ["./src/*"]
     }
